@@ -1,0 +1,70 @@
+The language contains three commands and 12 modules.
+
+Commands:
+	Mov A B
+		This moves data from address B to address A.
+		If address A does not yet exist it will be created as a basic module.
+	
+	Set A B
+		This moves the value of B to address A.
+		If address A does not yet exist it will be created as a basic module.
+		
+	Rst A
+		This resets the module of address A.
+		This sets the value held by the module to zero.
+		
+An address can be an integer or a string and represents a module in memory.
+
+There are two default address:
+	"pc"
+		The program counter. This is value of the line being read.
+	"lder"
+		A loader module.
+
+Module index:
+0-9 core modules
+10-19 math modules
+20-29 comparitor assist modules
+30-39 io modules
+
+The index values are not addresses, and are only used to tell the loader module what to load.
+
+0:Module
+	The basic module type used to store a value.
+1:LoaderModule
+	This module loads a new module
+10:AdderModule
+	This module sums up values
+11:SubtractorModule
+	This module sets its value to its first input.
+	And subtracts subsequent inputs from its current value.
+12:MultiplierModule
+	This module sets its value to its first input.
+	And multiplies subsequent inputs to its current value.
+13:DivisorModule
+	This module sets its value to its first input.
+	And divides subsequent inputs from its current value.
+14:ModuloModule
+	This module sets its value to its first input.
+	On later inputs : value = value % inputValue
+20:PositiveComparitorModule
+	This module sets its value to one if a positive value is sent to it,
+	And zero otherwise.
+21:NegativeComparitorModule
+	This module sets its value to one if a negative value is sent to it,
+	And zero otherwise.
+22:ZeroComparitorModule
+	This module sets its value to one if a value of zero is sent to it,
+	And zero otherwise.
+30:VPrintModule
+	This modules sets its value to any input, and then prints that value out.
+31:APrintModule
+	This modules sets its value to any input, and then prints that value out as an ascii character.
+
+Examples:
+	Example 1:
+		Set lder 10
+		Mov add lder
+		//This example shows the loader loading module of index 10
+		//Which is the adder module
+		//And then the module being stored in an address called "add"
