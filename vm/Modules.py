@@ -1,96 +1,92 @@
 class Module:
     def __init__(this):
-        this.reset()
-    def setValue(this,value):
+        this.reset(0)
+
+        
+    def setValue(this, value):
         this.value = value
-        this.init = True
+
+        
     def getValue(this):
         return this.value
-    def reset(this):
-        this.value = 0
-        this.init = False
+
+    
+    def reset(this, value):
+        this.value = value
+        
 
 class LoaderModule(Module):
-    def setValue(this,value):
+    def setValue(this, value):
         this.value = moduleList[value]
 
+
 class AdderModule(Module):
-    def setValue(this,value):
+    def setValue(this, value):
         this.value += value
 
+
 class SubtractorModule(Module):
-    def setValue(this,value):
-        if this.init:
-            this.value -= value
-        else:
-            this.value = value
-            this.init = True
+    def setValue(this, value):
+        this.value = value
+
 
 class MultiplierModule(Module):
-    def setValue(this,value):
-        if this.init:
-            this.value *= value
-        else:
-            this.value = value
-            this.init = True
+    def setValue(this, value):
+        this.value *= value
+
+
 
 class DivisorModule(Module):
-    def setValue(this,value):
-        if this.init:
-            this.value //= value
-        else:
-            this.value = value
-            this.init = True
+    def setValue(this, value):
+        this.value //= value
+
 
 class ModuloModule(Module):
-    def setValue(this,value):
-        if this.init:
-            this.value %= value
-        else:
-            this.value = value
-            this.init = True
+    def setValue(this, value):
+        this.value %= value
 
-class PositiveComparitorModule(Module):
-    def setValue(this,value):
-        if value > 0:
-            this.value = 1
-        else:
-            this.value = 0
 
-class NegativeComparitorModule(Module):
-    def setValue(this,value):
-        if value < 0:
-            this.value = 1
-        else:
-            this.value = 0
+class GreaterThanModule(Module):
+    def setValue(this, value):
+        this.value = int(value > this.comp)
 
-class ZeroComparitorModule(Module):
-    def setValue(this,value):
-        if value == 0:
-            this.value = 1
+    def reset(this, value):
+        this.value = 0
+        this.comp = value
+
+
+class JumpIfModule(Module):
+    def setValue(this, value):
+        if this.jumpb == None:
+            this.jumpb = value
         else:
-            this.value = 0
+            this.value = this.jumpa if value else this.jumpb
+
+    def reset(this, value):
+        this.value = value
+        this.jumpa = value
+        this.jumpb = None
+
 
 class VPrintModule(Module):
-    def setValue(this,value):
+    def setValue(this, value):
         this.value = value
-        print(value,end="")
+        print(value, end="")
+
 
 class APrintModule(Module):
-    def setValue(this,value):
+    def setValue(this, value):
         this.value = value
-        print(chr(value),end="")
+        print(chr(value), end="")
 
 
-moduleList = {0:Module, #0-9 core modules
-              1:LoaderModule,
-              10:AdderModule, #10-19 math modules
-              11:SubtractorModule,
-              12:MultiplierModule,
-              13:DivisorModule,
-              14:ModuloModule,
-              20:PositiveComparitorModule, #20-29 comparitor assist modules
-              21:NegativeComparitorModule,
-              22:ZeroComparitorModule,
-              30:VPrintModule, #30-39 io modules
-              31:APrintModule}
+moduleList = {"module" : Module,
+              "adder" : AdderModule,
+              "subtractor" : SubtractorModule,
+              "multiplier" : MultiplierModule,
+              "divisor" : DivisorModule,
+              "modulo" : ModuloModule,
+              "greaterthan" : GreaterThanModule,
+              "jumpaddressif" : JumpIfModule,
+              "vprint" : VPrintModule,
+              "aprint" : APrintModule}

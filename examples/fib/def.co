@@ -1,0 +1,6 @@
+10
+1,vprint
+2,aprint
+3,adder
+4,greaterthan
+5,jumpaddressif

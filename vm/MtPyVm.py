@@ -1,30 +1,54 @@
 from Modules import * 
 
 class Vm:
-    def __init__(this, location):
-        this.tape = []
+    def __init__(this, defLocation, progLocation):
+        this.addresses = []
+        this.loadDef(defLocation)
+
+        this.prog = []
+        this.loadProg(progLocation)
+                
+        this.fileLocation = progLocation
+        
+
+    def loadDef(this, location):
+        with open(location) as f:
+            line = f.readline()
+            this.addresses = [moduleList["module"]() for i in range(int(line) + 1)]
+            line = f.readline()
+            while line:
+                com = line.replace("\n", "").split("//")[0].split(",")
+                line = f.readline()
+                if len(com) < 2:
+                    continue
+                
+                this.addresses[int(com[0])] = moduleList[com[1]]()
+                
+
+    def loadProg(this, location):
         with open(location) as f:
             for line in f:
-                this.tape.append(line.replace("\n",""))
-                
-        this.fileLocation = location
-        this.addresses = {"pc":Module(),"lder":LoaderModule()}
+                this.prog.append(line.replace("\n", "").split("//")[0])
+                #Add cleaned line to prog
+
 
     def runTape(this):
         while(True):
-            command = this.getDat(this.addresses["pc"].value)
+            command = this.getDat(this.addresses[0].value)
+            this.addresses[0].value += 1
             
-            this.addresses["pc"].value += 1
             if this.runCommand(command) == False:
                 return
 
-    def getDat(this,line):        
-        command = this.tape[line].split("//")[0].split(" ")
+
+    def getDat(this, line):        
+        command = this.prog[line].split(" ")
         while command.count(""):
             command.remove("")
         return command
 
-    def runCommand(this,command): #Ugly needs rework
+
+    def runCommand(this, command):
         if len(command) == 0:
             return True #Skip Empty lines
 
@@ -33,63 +57,58 @@ class Vm:
         if com == "done":
             return False #Done on done
 
-        if len(command) < 2:
-            this.errOut("Tried to execute an invalid command : " + str(command))
-            return False
-
-        to = command[1]
-        try:
-            to = int(command[1]) #make int if you can
-        except:
-            pass
-
-        if com == "rst":
-            this.addresses[to].reset()
-            return True
-
         if len(command) < 3:
             this.errOut("Tried to execute an invalid command : " + str(command))
             return False
-                    
-        by = command[2]
-        try:
-            by = int(command[2]) #make int if you can
-        except:
-            pass
 
-        if not this.addresses.get(to):
-            this.addresses[to] = Module()
-          
-        if com == "mov":
-            val = this.addresses[by].getValue()
-            if type(val) == type(Module): #if we're addressing a module
-                this.addresses[to] = val() #instance it
-            else:
-                this.addresses[to].setValue(val) #Otherwise just move value
-        elif com == "set":
-            if type(by) != int:
-                this.errOut("Tried to set non int value : " + by)
-                return False
-            this.addresses[to].setValue(by) #Set address to value
+        try:
+            to = int(command[1])
+            if to >= len(this.addresses):
+                this.errout("Target module address out of bounds : " + str(command))
+            to = this.addresses[to]
+        except:
+            this.errOut("Invalid target module address : " + str(command))
+
+        try:
+            by = int(command[2])
+        except:
+            this.errout("Invalid origin module address : " + str(command))
+
+
+        if com == "set":
+            to.setValue(by)
+            return True
+
+        if by >= len(this.addresses):
+                this.errOut("Origin module address out of bounds : " + str(command))
+        by = this.addresses[by]
+                
+        if com == "rst":
+            to.reset(by.getValue())
+        elif com == "mov":
+            to.setValue(by.getValue())            
         else:
             this.errOut("Tried to execute an invalid command : " + com)
             return False
 
         return True
+    
 
-    def errOut(this,text):
-        print(">> ERR:",text,":",this.fileLocation)
+    def errOut(this, text):
+        print(">> ERR:", text, ":", this.fileLocation)
         #print(str(this.addresses)) #Good for debug
         exit(1)
 
 #######
 if __name__ == "__main__":
     import sys
-    
-    try:
-        a = Vm(sys.argv[1])
-    except:
-        print(">> ERR: Unable to load program")
-        exit()
 
+    if len(sys.argv) < 3:
+        print(">> ERR: No program provided")
+        if len(sys.argv) < 2:
+            print(">> ERR: No Computer definition provided")
+        exit(1)
+    
+    a = Vm(sys.argv[1], sys.argv[2])
+    
     a.runTape()

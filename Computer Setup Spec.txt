@@ -1,0 +1,26 @@
+Computer Setup Spec
+
+csv file following the pattern of:
+
+max_address_value
+address, attached_module
+address, attached_module
+address, attached_module
+...
+
+You can attach as many or as few modules as you want.
+Addresses are positive integer values.
+Address 0 is reserved as the program counter.
+
+The modules are as listed:
+	"adder"
+	"subtractor"
+	"multiplier"
+	"divisor"
+	"modulo"
+	"greaterthan"
+	"lessthan"
+	"equal"
+	"jumpaddressif"
+	"vprint"
+	"aprint"
