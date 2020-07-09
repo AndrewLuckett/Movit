@@ -3,11 +3,9 @@ Movit Language Spec
 Commands:
 	Mov A B
 		This moves data from address B to address A.
-		If address A does not yet exist it will be created as a basic module.
 	
 	Set A B
 		This moves the value of B to address A.
-		If address A does not yet exist it will be created as a basic module.
 		
 	Rst A B
 		This resets the module of address A.
