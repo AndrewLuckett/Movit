@@ -10,6 +10,7 @@ address, attached_module
 
 You can attach as many or as few modules as you want.
 Addresses are positive integer values.
+Valid addresses not set to a module will become memory addresses.
 Address 0 is reserved as the program counter.
 
 The modules are as listed:
