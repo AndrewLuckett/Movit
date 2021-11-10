@@ -29,16 +29,16 @@ class Vm:
         with open(location) as f:
             for line in f:
                 this.prog.append(line.replace("\n", "").split("//")[0])
-                #Add cleaned line to prog
+                # Add cleaned line to prog
 
 
     def runTape(this):
-        while(True):
+        v = True
+        while v:
             command = this.getDat(this.addresses[0].value)
             this.addresses[0].value += 1
             
-            if this.runCommand(command) == False:
-                return
+            v = this.runCommand(command)
 
 
     def getDat(this, line):        
@@ -50,49 +50,39 @@ class Vm:
 
     def runCommand(this, command):
         if len(command) == 0:
-            return True #Skip Empty lines
+            return True # Skip Empty lines
 
         com = command[0].lower()
 
         if com == "done":
-            return False #Done on done
+            return False # Done on done
 
-        if len(command) < 3:
+        if len(command) != 3 or com not in ["rst", "mov", "set"]:
             this.errOut("Tried to execute an invalid command : " + str(command))
-            return False
-
-        try:
-            to = int(command[1])
-            if to >= len(this.addresses):
-                this.errout("Target module address out of bounds : " + str(command))
-            to = this.addresses[to]
-        except:
-            this.errOut("Invalid target module address : " + str(command))
 
         try:
             by = int(command[2])
         except:
             this.errout("Invalid origin module address : " + str(command))
+        
+        try:
+            to = int(command[1])
+        except:
+            this.errOut("Invalid target module address : " + str(command))
 
-
-        if com == "set":
-            to.setValue(by)
-            return True
-
-        if by >= len(this.addresses):
+        # Get value at from address
+        if com != "set": # If 'set' take command[2] value as data not address
+            if by >= len(this.addresses):
                 this.errOut("Origin module address out of bounds : " + str(command))
-        by = this.addresses[by]
-                
-        if com == "rst":
-            to.reset(by.getValue())
-        elif com == "mov":
-            to.setValue(by.getValue())            
-        else:
-            this.errOut("Tried to execute an invalid command : " + com)
-            return False
+            by = this.addresses[by].getValue()
 
-        return True
-    
+        # Get module at to address
+        if to >= len(this.addresses):
+            this.errout("Target module address out of bounds : " + str(command))
+        to = this.addresses[to]
+
+        return to.handleCommand(com, by)
+
 
     def errOut(this, text):
         print(">> ERR:", text, ":", this.fileLocation)
