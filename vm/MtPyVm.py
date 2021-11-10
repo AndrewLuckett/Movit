@@ -1,4 +1,8 @@
-from Modules import * 
+from Modules import *
+_Debug = False
+
+if _Debug:
+    import time
 
 class Vm:
     def __init__(this, defLocation, progLocation):
@@ -17,6 +21,7 @@ class Vm:
             this.addresses = [moduleList["module"]() for i in range(int(line) + 1)]
             line = f.readline()
             while line:
+                line = line.replace(" ", "")
                 com = line.replace("\n", "").split("//")[0].split(",")
                 line = f.readline()
                 if len(com) < 2:
@@ -36,6 +41,9 @@ class Vm:
         v = True
         while v:
             command = this.getDat(this.addresses[0].value)
+            if _Debug:
+                print(this.addresses[0].value, command)
+                time.sleep(0.5)
             this.addresses[0].value += 1
             
             v = this.runCommand(command)

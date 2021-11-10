@@ -56,6 +56,9 @@ class ModuloModule(Module):
 
 
 class GreaterThanModule(Module):
+    '''
+    value == second value > first value
+    '''
     def setValue(this, value):
         this.value = int(value > this.comp)
 
