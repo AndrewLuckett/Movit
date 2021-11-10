@@ -1,0 +1,15 @@
+100
+1, aprint
+2, adder //X for value
+3, subtractor //Y for value
+// 4 image size
+5, jumpaddressif //for looping
+6, adder //I for value
+7, greaterthan
+// 8 zero
+9, adder //for x+y
+10, modulo
+11, divisor //a
+12, divisor //b
+13, adder //t
+//14 address holder
