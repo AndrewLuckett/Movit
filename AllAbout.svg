@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.70000001"
-     inkscape:cx="289.18511"
-     inkscape:cy="42.598784"
+     inkscape:zoom="1.979899"
+     inkscape:cx="161.49026"
+     inkscape:cy="-46.65584"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g982"
      showgrid="false"
      inkscape:window-width="1278"
      inkscape:window-height="1408"
@@ -426,15 +426,15 @@
          style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.69999999;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <text
          id="text823"
-         y="278.26166"
-         x="26.223722"
+         y="277.8533"
+         x="24.162176"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:35.27777481px;line-height:0;font-family:Arial;-inkscape-font-specification:Arial;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.69999999;stroke-miterlimit:4;stroke-dasharray:none"
          xml:space="preserve"><tspan
            id="tspan827"
            style="font-size:3.88055563px;line-height:0;fill:#000000;stroke-width:0.69999999;stroke-miterlimit:4;stroke-dasharray:none"
-           y="278.26166"
-           x="26.223722"
-           sodipodi:role="line">Bus Controller</tspan></text>
+           y="277.8533"
+           x="24.162176"
+           sodipodi:role="line">Program Reader</tspan></text>
     </g>
     <g
        id="g1327"
