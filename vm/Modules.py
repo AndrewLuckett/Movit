@@ -2,6 +2,15 @@ class Module:
     def __init__(this):
         this.reset(0)
 
+
+    def handleCommand(this, com, dat):
+        #set and mov already seperated
+        if com == "rst":
+            this.reset(dat)
+        else:
+            this.setValue(dat)
+        return True
+
         
     def setValue(this, value):
         this.value = value
@@ -27,7 +36,7 @@ class AdderModule(Module):
 
 class SubtractorModule(Module):
     def setValue(this, value):
-        this.value = value
+        this.value -= value
 
 
 class MultiplierModule(Module):
@@ -56,6 +65,12 @@ class GreaterThanModule(Module):
 
 
 class JumpIfModule(Module):
+    '''
+    Reset with jumpa address
+    Set or move in jumpb addres
+    set or move in value
+    if value != 0 then jumpa is used, otherwise jumpb
+    '''
     def setValue(this, value):
         if this.jumpb == None:
             this.jumpb = value
